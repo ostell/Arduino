@@ -33,8 +33,7 @@ byte colPins[COLS] = {A0, A1, A2, A3};     //connect to the column pinouts of th
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 
 // initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(12
-, 11, 5, 4, 3, 2); // Assignign arduino pins to LCD display module
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2); // Assignign arduino pins to LCD display module
 
 
 
@@ -48,7 +47,7 @@ int alarmStatus = 0;
 int zone = 0;
 int alarmActive = 0;
 
-void setup(){
+void setup() {
   Serial.begin(9600);
   lcd.begin(16, 2);
   
@@ -63,11 +62,10 @@ void setup(){
   keypad.addEventListener(keypadEvent); //Event listener
 }
 
-void loop(){
-  
+void loop() {
   keypad.getKey();
 
-  if (alarmActive == 1){ 
+  if (alarmActive == 1) { 
     if (analogRead(pirPin1) > 700)
     {
       zone = 3;
@@ -83,18 +81,17 @@ void loop(){
       zone = 2;
       alarmTriggered();
     }
-    
-   }
+  }
 }
 
 /////////////////////////  Functions  /////////////////////////////////
 //take care of some special events
 ///////////////////////////////////////////////////////////////////////
-void keypadEvent(KeypadEvent eKey){
-  switch (keypad.getState()){
+void keypadEvent(KeypadEvent eKey) {
+  switch (keypad.getState()) {
   case PRESSED:
-    Serial.print("Pressed: ");
-    Serial.println(eKey);
+    //Serial.print("Pressed: ");
+    //Serial.println(eKey);
      if (passwd_pos - 12 >= 5) { 
       return ;
     }
@@ -126,23 +123,23 @@ void alarmTriggered(){
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("SYSTEM TRIGGERED");
-  Serial.println("SYSTEM TRIGGERED");
+  //Serial.println("SYSTEM TRIGGERED");
   lcd.setCursor(0,1);
 
   if (zone == 1)
   { 
     lcd.print("Corridor!");
-    Serial.println("Corridor!");
+    //Serial.println("Corridor!");
     delay(1000);
   }
   if(zone == 2){
     lcd.print("Liv_room!");
-    Serial.println("Liv room!");
+    //Serial.println("Liv room!");
     delay(1000);
   }  
   if(zone == 3){
     lcd.print("Basement!");
-    Serial.println("Basement!");
+    //Serial.println("Basement!");
     delay(1000);
   }
 }
@@ -172,10 +169,10 @@ void invalidCode()   //Display meaasge when a invalid is entered
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("INVALID CODE!");
-  Serial.println("inavlid code");
+  //Serial.println("inavlid code");
   lcd.setCursor(0,1);
   lcd.print("TRY AGAIN!");
-  Serial.println("try again");
+  //Serial.println("try again");
 
   displayCodeEntryScreen();
   alarmTriggered();
@@ -192,7 +189,7 @@ void activate()      // Activate the system if correct PIN entered and display m
     lcd.print("SYSTEM");
     lcd.setCursor(0,1);
     lcd.print("ACTIVATED!");
-    Serial.println("system active"); 
+    //Serial.println("system active"); 
     alarmActive = 1;
     password.reset();
     delay(2000);
@@ -215,7 +212,7 @@ void deactivate()
   lcd.print("SYSTEM");
   lcd.setCursor(0,1);
   lcd.print("DEACTIVATED!");
-  Serial.println("system deactivated");
+  //Serial.println("system deactivated");
   digitalWrite(speakerPin, LOW);
   siren();
   alarmActive = 0;
@@ -231,10 +228,10 @@ void displayCodeEntryScreen()    // Dispalying start screen for users to enter P
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Enter PIN:");
-  Serial.println("Enter pin");
+  //Serial.println("Enter pin");
   lcd.setCursor(0,1);
   lcd.print("Home Sec System");
-  Serial.println("home sec system");
+  //Serial.println("home sec system");
   
 
 }
